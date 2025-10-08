@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rentals', function (Blueprint $table) {
-            $table->id(); // Primary key 'id'
-            $table->unsignedBigInteger('user_id'); // Foreign key to users table
+            $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('item_name');           // Name of the rented item
             $table->text('description')->nullable(); // Optional description
             $table->decimal('price', 10, 2);       // Price of the rental
