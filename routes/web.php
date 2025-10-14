@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Landlord\DashboardController as LandlordDashboard;
+use App\Http\Controllers\Student\DashboardController as StudentDashboard;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,13 +24,13 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', fn() => view('dashboards.admin'))->name('dashboard.admin');
+    Route::get('/admin/dashboard', [AdminDashboard::class, 'index'])->name('admin.dashboard');
 });
 
 Route::middleware(['auth', 'role:landlord'])->group(function () {
-    Route::get('/landlord/dashboard', fn() => view('dashboards.landlord'))->name('dashboard.landlord');
+    Route::get('/landlord/dashboard', [LandlordDashboard::class, 'index'])->name('landlord.dashboard');
 });
 
 Route::middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/student/dashboard', fn() => view('dashboards.student'))->name('dashboard.student');
+    Route::get('/student/dashboard', [StudentDashboard::class, 'index'])->name('student.dashboard');
 });

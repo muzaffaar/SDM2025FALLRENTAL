@@ -4,13 +4,22 @@
 
         <div class="space-x-4">
             @auth
-                @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('dashboard.admin') }}" class="text-gray-700 hover:text-blue-600">Admin Dashboard</a>
-                @elseif(auth()->user()->role === 'landlord')
-                    <a href="{{ route('dashboard.landlord') }}" class="text-gray-700 hover:text-blue-600">Landlord Dashboard</a>
-                @elseif(auth()->user()->role === 'student')
-                    <a href="{{ route('dashboard.student') }}" class="text-gray-700 hover:text-blue-600">Student Dashboard</a>
+                @php($role = auth()->user()->role)
+
+                @if($role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-blue-600">
+                        Admin Dashboard
+                    </a>
+                @elseif($role === 'landlord')
+                    <a href="{{ route('landlord.dashboard') }}" class="text-gray-700 hover:text-blue-600">
+                        Landlord Dashboard
+                    </a>
+                @elseif($role === 'student')
+                    <a href="{{ route('student.dashboard') }}" class="text-gray-700 hover:text-blue-600">
+                        Student Dashboard
+                    </a>
                 @endif
+
                 <form action="{{ route('logout') }}" method="POST" class="inline">
                     @csrf
                     <button class="text-red-600 hover:underline">Logout</button>
