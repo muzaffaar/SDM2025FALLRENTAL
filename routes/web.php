@@ -18,3 +18,15 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', fn() => 'Welcome, Admin');
+});
+
+Route::middleware(['auth', 'role:landlord'])->group(function () {
+    Route::get('/landlord/dashboard', fn() => 'Welcome, Landlord');
+});
+
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/student/dashboard', fn() => 'Welcome, Student');
+});
