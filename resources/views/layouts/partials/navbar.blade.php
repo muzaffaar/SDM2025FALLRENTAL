@@ -1,0 +1,24 @@
+<nav class="bg-white border-b shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/" class="font-bold text-lg text-blue-600">🏠 Rental Portal</a>
+
+        <div class="space-x-4">
+            @auth
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('dashboard.admin') }}" class="text-gray-700 hover:text-blue-600">Admin Dashboard</a>
+                @elseif(auth()->user()->role === 'landlord')
+                    <a href="{{ route('dashboard.landlord') }}" class="text-gray-700 hover:text-blue-600">Landlord Dashboard</a>
+                @elseif(auth()->user()->role === 'student')
+                    <a href="{{ route('dashboard.student') }}" class="text-gray-700 hover:text-blue-600">Student Dashboard</a>
+                @endif
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button class="text-red-600 hover:underline">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600">Login</a>
+                <a href="{{ route('register') }}" class="text-gray-700 hover:text-blue-600">Register</a>
+            @endauth
+        </div>
+    </div>
+</nav>

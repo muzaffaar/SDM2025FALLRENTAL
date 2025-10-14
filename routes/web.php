@@ -20,13 +20,13 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', fn() => 'Welcome, Admin');
+    Route::get('/admin/dashboard', fn() => view('dashboards.admin'))->name('dashboard.admin');
 });
 
 Route::middleware(['auth', 'role:landlord'])->group(function () {
-    Route::get('/landlord/dashboard', fn() => 'Welcome, Landlord');
+    Route::get('/landlord/dashboard', fn() => view('dashboards.landlord'))->name('dashboard.landlord');
 });
 
 Route::middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/student/dashboard', fn() => 'Welcome, Student');
+    Route::get('/student/dashboard', fn() => view('dashboards.student'))->name('dashboard.student');
 });
