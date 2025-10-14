@@ -5,10 +5,13 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\WithFaker;
+
 
 class AuthenticationTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker, WithoutMiddleware;
 
     public function test_login_screen_can_be_rendered(): void
     {
@@ -27,7 +30,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('student.dashboard'));
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
