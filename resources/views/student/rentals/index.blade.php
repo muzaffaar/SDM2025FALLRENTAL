@@ -46,7 +46,7 @@
                 @foreach($rentals as $rental)
                     <div class="col-md-6 col-lg-4">
                         <div class="card shadow-sm h-100">
-                            <img src="{{ asset($rental->image_path ?? 'images/default.jpg') }}"
+                            <img src="{{ asset('storage/'.$rental->image_path ?? 'images/default.jpg') }}"
                                  class="card-img-top"
                                  alt="rental"
                                  style="height: 200px; object-fit: cover;">
