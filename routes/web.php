@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RentalController;
 use App\Http\Controllers\RentalRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
@@ -34,5 +35,7 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
 
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [StudentDashboard::class, 'index'])->name('student.dashboard');
+    Route::get('/rentals', [RentalController::class, 'index'])->name('student.rentals.index');
     Route::post('/rentals/{id}/request', [RentalRequestController::class, 'store'])->name('student.rentals.request');
+
 });

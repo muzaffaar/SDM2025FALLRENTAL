@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('rentals', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('landlord_id')->constrained('users')->onDelete('cascade');
             $table->decimal('price', 10, 2);
+            $table->text('description')->nullable();
             $table->string('location');
-            $table->enum('status', ['available', 'rented', 'pending'])->default('available');
+            $table->foreignId('landlord_id')->constrained('users')->onDelete('cascade');
+            $table->enum('status', ['available', 'rented'])->default('available');
             $table->string('image_path')->nullable();
             $table->timestamps();
         });
