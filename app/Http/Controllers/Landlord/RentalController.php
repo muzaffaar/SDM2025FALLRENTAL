@@ -46,9 +46,25 @@ class RentalController extends Controller
             ->with('success', 'Rental listing created successfully!');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $rentals = Rental::where('landlord_id', Auth::id())->latest()->get();
+        $rentals = Rental::query()
+            ->where('landlord_id', Auth::id()) // only landlord’s rentals
+            ->when($request->keyword, fn($q) =>
+            $q->where('title', 'like', "%{$request->keyword}%")
+                ->orWhere('description', 'like', "%{$request->keyword}%")
+            )
+            ->when($request->location, fn($q) =>
+            $q->where('location', 'like', "%{$request->location}%")
+            )
+            ->when($request->min_price, fn($q) =>
+            $q->where('price', '>=', $request->min_price)
+            )
+            ->when($request->max_price, fn($q) =>
+            $q->where('price', '<=', $request->max_price)
+            )
+            ->latest()
+            ->get();
         return view('landlord.rentals.index', compact('rentals'));
     }
 
