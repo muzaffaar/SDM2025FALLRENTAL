@@ -13,13 +13,13 @@ class RentalRequest extends Model
         'rental_id', 'student_id', 'status', 'message'
     ];
 
-    public function rental()
-    {
-        return $this->belongsTo(Rental::class);
-    }
-
     public function student()
     {
         return $this->belongsTo(User::class, 'student_id');
+    }
+
+    public function rental()
+    {
+        return $this->belongsTo(Rental::class);
     }
 }
