@@ -1,28 +1,42 @@
-{{-- Flash messages --}}
+{{-- Flash Messages --}}
 @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-800 px-4 py-2 rounded mb-3">
+    <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
         {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 
 @if (session('error'))
-    <div class="bg-red-100 border border-red-400 text-red-800 px-4 py-2 rounded mb-3">
+    <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
         {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 
 {{-- Rental Request Form --}}
-<form action="{{ route('student.rentals.request', $rental->id) }}" method="POST" class="mt-4">
-    @csrf
-    <textarea
-        name="message"
-        rows="3"
-        placeholder="Write a message to the landlord (optional)..."
-        class="w-full border border-gray-300 rounded-lg p-2 mb-3 focus:ring-2 focus:ring-blue-400"
-    ></textarea>
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Send Rental Request</h5>
+        <form action="{{ route('student.rentals.request', $rental->id) }}" method="POST">
+            @csrf
+            <div class="mb-3">
+                <label for="message" class="form-label fw-semibold">Message to Landlord (optional)</label>
+                <textarea
+                    name="message"
+                    id="message"
+                    rows="3"
+                    placeholder="Write a message to the landlord..."
+                    class="form-control"
+                ></textarea>
+            </div>
 
-    <button type="submit"
-            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-        Request Rental
-    </button>
-</form>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-send-fill me-1"></i> Request Rental
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

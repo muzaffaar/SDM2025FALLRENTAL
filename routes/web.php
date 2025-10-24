@@ -37,5 +37,5 @@ Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [StudentDashboard::class, 'index'])->name('student.dashboard');
     Route::get('/rentals', [RentalController::class, 'index'])->name('student.rentals.index');
     Route::post('/rentals/{id}/request', [RentalRequestController::class, 'store'])->name('student.rentals.request');
-
+    Route::get('/my-requests', [RentalRequestController::class, 'index'])->name('student.requests.index');
 });
