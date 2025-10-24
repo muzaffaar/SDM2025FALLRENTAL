@@ -10,7 +10,13 @@ class Rental extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'landlord_id', 'price', 'location', 'status', 'image_path'
+        'title',
+        'description',
+        'price',
+        'location',
+        'image_path',
+        'landlord_id',
+        'status',
     ];
 
     public function landlord()

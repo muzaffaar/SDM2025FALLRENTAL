@@ -31,6 +31,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:landlord'])->group(function () {
     Route::get('/landlord/dashboard', [LandlordDashboard::class, 'index'])->name('landlord.dashboard');
+    Route::get('/landlord/rentals/create', [RentalController::class, 'create'])->name('landlord.rentals.create');
+
+    Route::post('/landlord/rentals', [RentalController::class, 'store'])->name('landlord.rentals.store');
 });
 
 Route::middleware(['auth', 'role:student'])->group(function () {
