@@ -3,16 +3,16 @@
 @section('content')
     <div class="container py-4">
 
-        {{-- Flash messages --}}
+        {{-- Flash Messages --}}
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
                 <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -20,84 +20,76 @@
 
         {{-- Header --}}
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold mb-0">My Rentals</h4>
-            <a href="{{ route('landlord.rentals.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-circle me-1"></i> Add New
+            <h4 class="fw-bold mb-0">Tenant Requests</h4>
+            <a href="{{ route('landlord.dashboard') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
             </a>
         </div>
 
-        @if($rentals->count())
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                    <tr>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Location</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th class="text-end">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($rentals as $rental)
-                        <tr>
-                            <td>
-                                <img src="{{ asset('storage/'.$rental->image_path) }}" alt="image" width="70" height="70" class="rounded" style="object-fit: cover;">
-                            </td>
-                            <td>{{ $rental->title }}</td>
-                            <td>{{ $rental->location }}</td>
-                            <td>${{ number_format($rental->price, 2) }}</td>
-                            <td>
-                                <span class="badge
-                                    @if($rental->status === 'available') bg-success
-                                    @elseif($rental->status === 'rented') bg-secondary
-                                    @else bg-warning @endif">
-                                    {{ ucfirst($rental->status) }}
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <a href="{{ route('landlord.rentals.edit', $rental->id) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil-square"></i> Edit
-                                </a>
-
-                                <!-- Delete Button trigger modal -->
-                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $rental->id }}">
-                                    <i class="bi bi-trash"></i> Delete
-                                </button>
-
-                                <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteModal{{ $rental->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $rental->id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $rental->id }}">Confirm Deletion</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Are you sure you want to delete <strong>{{ $rental->title }}</strong>?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <form action="{{ route('landlord.rentals.destroy', $rental->id) }}" method="POST">
+        @if($requests->count())
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Student</th>
+                                <th>Rental Title</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($requests as $req)
+                                <tr>
+                                    <td>{{ $req->student->name ?? 'N/A' }}</td>
+                                    <td>{{ $req->rental->title ?? 'N/A' }}</td>
+                                    <td class="text-muted">{{ $req->message ?? '—' }}</td>
+                                    <td>
+                                        <span class="badge
+                                            @if($req->status === 'approved') bg-success
+                                            @elseif($req->status === 'rejected') bg-danger
+                                            @else bg-warning text-dark @endif">
+                                            {{ ucfirst($req->status) }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        @if($req->status === 'pending')
+                                            <div class="btn-group" role="group">
+                                                <form action="{{ route('landlord.requests.update', $req->id) }}" method="POST">
                                                     @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="action" value="approve">
+                                                    <button type="submit" class="btn btn-sm btn-success">
+                                                        <i class="bi bi-check2-circle"></i> Approve
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('landlord.requests.update', $req->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="action" value="reject">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                        <i class="bi bi-x-circle"></i> Reject
+                                                    </button>
                                                 </form>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                                        @else
+                                            <span class="text-muted small">No actions available</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         @else
             <div class="alert alert-info mt-4" role="alert">
-                You haven’t added any rentals yet.
+                No rental requests found.
             </div>
         @endif
+
     </div>
 @endsection
