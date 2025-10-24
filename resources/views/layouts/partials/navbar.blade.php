@@ -1,33 +1,71 @@
-<nav class="bg-white border-b shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        <a href="/" class="font-bold text-lg text-blue-600">🏠 Rental Portal</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+    <div class="container">
+        {{-- Brand --}}
+        <a class="navbar-brand fw-bold text-primary" href="/">
+            🏠 Rental Portal
+        </a>
 
-        <div class="space-x-4">
-            @auth
-                @php($role = auth()->user()->role)
+        {{-- Mobile Toggler --}}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                @if($role === 'admin')
-                    <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-blue-600">
-                        Admin Dashboard
-                    </a>
-                @elseif($role === 'landlord')
-                    <a href="{{ route('landlord.dashboard') }}" class="text-gray-700 hover:text-blue-600">
-                        Landlord Dashboard
-                    </a>
-                @elseif($role === 'student')
-                    <a href="{{ route('student.dashboard') }}" class="text-gray-700 hover:text-blue-600">
-                        Student Dashboard
-                    </a>
-                @endif
+        {{-- Navbar Content --}}
+        <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+            <ul class="navbar-nav align-items-center mb-2 mb-lg-0">
 
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                    @csrf
-                    <button class="text-red-600 hover:underline">Logout</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600">Login</a>
-                <a href="{{ route('register') }}" class="text-gray-700 hover:text-blue-600">Register</a>
-            @endauth
+                @auth
+                    @php($role = auth()->user()->role)
+
+                    {{-- Role-specific dashboards --}}
+                    @if($role === 'admin')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                                Admin Dashboard
+                            </a>
+                        </li>
+                    @elseif($role === 'landlord')
+                        <li class="nav-item">
+                            <a href="{{ route('landlord.dashboard') }}" class="nav-link">
+                                Landlord Dashboard
+                            </a>
+                        </li>
+                    @elseif($role === 'student')
+                        <li class="nav-item">
+                            <a href="{{ route('student.dashboard') }}" class="nav-link">
+                                Student Dashboard
+                            </a>
+                        </li>
+                    @endif
+
+                    {{-- Divider --}}
+                    <li class="nav-item mx-2 text-muted">|</li>
+
+                    {{-- Logout --}}
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-link nav-link text-danger p-0">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+
+                @else
+                    {{-- Guest links --}}
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="nav-link">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('register') }}" class="nav-link">
+                            Register
+                        </a>
+                    </li>
+                @endauth
+            </ul>
         </div>
     </div>
 </nav>

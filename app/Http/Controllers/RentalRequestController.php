@@ -9,8 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class RentalRequestController extends Controller
 {
-    public function index() {
-        return response()->json(RentalRequest::with(['rental', 'student'])->get());
+    public function index()
+    {
+        $requests = \App\Models\RentalRequest::with(['rental', 'rental.student'])
+            ->where('student_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('student.requests.index', compact('requests'));
     }
 
     public function store(Request $request, $id)
