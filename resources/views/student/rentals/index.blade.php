@@ -45,23 +45,58 @@
             <div class="row g-4">
                 @foreach($rentals as $rental)
                     <div class="col-md-6 col-lg-4">
-                        <div class="card shadow-sm h-100">
-                            <img src="{{ asset('storage/'.$rental->image_path ?? 'images/default.jpg') }}"
-                                 class="card-img-top"
-                                 alt="rental"
-                                 style="height: 200px; object-fit: cover;">
+                        <div class="card shadow-sm h-100 border-0">
 
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold">{{ $rental->title }}</h5>
-                                <p class="text-muted mb-1">
-                                    <i class="bi bi-geo-alt-fill text-danger"></i> {{ $rental->location }}
-                                </p>
-                                <p class="text-primary fw-semibold mb-2">${{ number_format($rental->price, 2) }}</p>
-                                <p class="text-secondary small mb-3">{{ Str::limit($rental->description, 80) }}</p>
+                            {{-- Carousel for Multiple Images --}}
+                            @if($rental->images && $rental->images->count())
+                                <div id="rentalCarousel{{ $rental->id }}" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @foreach($rental->images as $key => $img)
+                                            <div class="carousel-item @if($key == 0) active @endif">
+                                                <img src="{{ asset('storage/'.$img->image_path) }}"
+                                                     class="d-block w-100 rounded-top"
+                                                     alt="rental image"
+                                                     style="height: 220px; object-fit: cover;">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @if($rental->images->count() > 1)
+                                        <button class="carousel-control-prev" type="button"
+                                                data-bs-target="#rentalCarousel{{ $rental->id }}" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon"></span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                                data-bs-target="#rentalCarousel{{ $rental->id }}" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon"></span>
+                                        </button>
+                                    @endif
+                                </div>
+                            @else
+                                <img src="{{ asset('images/default.jpg') }}" class="card-img-top rounded-top"
+                                     alt="default rental image"
+                                     style="height: 220px; object-fit: cover;">
+                            @endif
 
+                            {{-- Card Body --}}
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <h5 class="card-title fw-bold">{{ $rental->title }}</h5>
+                                    <p class="text-muted mb-1">
+                                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                                        {{ $rental->location }}
+                                    </p>
+                                    <p class="text-primary fw-semibold mb-2">
+                                        ${{ number_format($rental->price, 2) }}
+                                    </p>
+                                    <p class="text-secondary small mb-3">
+                                        {{ Str::limit($rental->description, 80) }}
+                                    </p>
+                                </div>
+
+                                {{-- View Details --}}
                                 <div class="mt-auto">
                                     <a href="{{ url('/rentals/'.$rental->id) }}" class="btn btn-outline-primary w-100">
-                                        View Details
+                                        <i class="bi bi-info-circle me-1"></i> View Details
                                     </a>
                                 </div>
                             </div>

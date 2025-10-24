@@ -19,6 +19,11 @@ class Rental extends Model
         'status',
     ];
 
+    public function images()
+    {
+        return $this->hasMany(RentalImage::class);
+    }
+
     public function landlord()
     {
         return $this->belongsTo(User::class, 'landlord_id');
