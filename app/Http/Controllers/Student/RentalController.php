@@ -28,4 +28,10 @@ class RentalController extends Controller
 
         return view('student.rentals.index', compact('rentals'));
     }
+
+    public function show($id)
+    {
+        $rental = Rental::findOrFail($id);
+        return view('student.rentals.show', compact('rental'));
+    }
 }

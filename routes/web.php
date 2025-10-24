@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\Landlord\RentalController as LandlordRentalController;
+use App\Http\Controllers\Landlord\RentalRequestController as LandlordRentalRequestController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RentalRequestController;
 use App\Http\Controllers\Student\RentalController as StudentRentalController;
+use App\Http\Controllers\Student\RentalRequestController as StudentRentalRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Landlord\DashboardController as LandlordDashboard;
@@ -38,11 +39,14 @@ Route::middleware(['auth', 'role:landlord'])->group(function () {
     Route::get('/landlord/rentals/{id}/edit', [LandlordRentalController::class, 'edit'])->name('landlord.rentals.edit');
     Route::put('/landlord/rentals/{id}', [LandlordRentalController::class, 'update'])->name('landlord.rentals.update');
     Route::delete('/landlord/rentals/{id}', [LandlordRentalController::class, 'destroy'])->name('landlord.rentals.destroy');
+    Route::get('/landlord/requests', [LandlordRentalRequestController::class, 'landlordRequests'])->name('landlord.requests.index');
+    Route::put('/landlord/requests/{id}', [LandlordRentalRequestController::class, 'updateStatus'])->name('landlord.requests.update');
 });
 
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [StudentDashboard::class, 'index'])->name('student.dashboard');
     Route::get('/rentals', [StudentRentalController::class, 'index'])->name('student.rentals.index');
-    Route::post('/rentals/{id}/request', [RentalRequestController::class, 'store'])->name('student.rentals.request');
-    Route::get('/my-requests', [RentalRequestController::class, 'index'])->name('student.requests.index');
+    Route::get('/rentals/{id}', [StudentRentalController::class, 'show'])->name('student.rentals.show');
+    Route::post('/rentals/{id}/request', [StudentRentalRequestController::class, 'store'])->name('student.rentals.request');
+    Route::get('/my-requests', [StudentRentalRequestController::class, 'index'])->name('student.requests.index');
 });

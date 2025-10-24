@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use App\Models\Rental;
 use App\Models\RentalRequest;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class RentalRequestController extends Controller
 {
     public function index()
     {
-        $requests = \App\Models\RentalRequest::with(['rental', 'rental.student'])
+        $requests = \App\Models\RentalRequest::with(['rental', 'student'])
             ->where('student_id', auth()->id())
             ->latest()
             ->get();
