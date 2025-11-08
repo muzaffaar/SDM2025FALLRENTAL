@@ -10,7 +10,7 @@ class RentalController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Rental::where('status', 'available');
+        $query = Rental::where('status', 'active');
 
         if ($request->filled('location')) {
             $query->where('location', 'like', '%' . $request->location . '%');
