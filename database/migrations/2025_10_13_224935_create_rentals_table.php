@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('location');
             $table->foreignId('landlord_id')->constrained('users')->onDelete('cascade');
-            $table->enum('status', ['available', 'rented'])->default('available');
+            $table->enum('status', ['available', 'rented', 'active', 'inactive'])->default('available');
             $table->string('image_path')->nullable();
             $table->timestamps();
         });

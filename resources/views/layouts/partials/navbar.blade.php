@@ -20,21 +20,46 @@
 
                     {{-- Role-specific dashboards --}}
                     @if($role === 'admin')
+                        {{-- Admin Navigation --}}
                         <li class="nav-item">
                             <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                                Admin Dashboard
+                                Dashboard
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.users.index') }}" class="nav-link">
+                                Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.rentals.index') }}" class="nav-link">
+                                Rentals
+                            </a>
+                        </li>
+
                     @elseif($role === 'landlord')
+                        {{-- Landlord Navigation --}}
                         <li class="nav-item">
                             <a href="{{ route('landlord.dashboard') }}" class="nav-link">
-                                Landlord Dashboard
+                                Dashboard
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('landlord.rentals.index') }}" class="nav-link">
+                                My Rentals
+                            </a>
+                        </li>
+
                     @elseif($role === 'student')
+                        {{-- Student Navigation --}}
                         <li class="nav-item">
                             <a href="{{ route('student.dashboard') }}" class="nav-link">
-                                Student Dashboard
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('student.rentals.index') }}" class="nav-link">
+                                Browse Rentals
                             </a>
                         </li>
                     @endif

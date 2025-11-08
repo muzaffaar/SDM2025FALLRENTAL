@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminRentalController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Landlord\RentalController as LandlordRentalController;
 use App\Http\Controllers\Landlord\RentalRequestController as LandlordRentalRequestController;
@@ -36,6 +37,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
 
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+
+    Route::get('/admin/rentals', [AdminRentalController::class, 'index'])->name('admin.rentals.index');
+    Route::patch('/admin/rentals/{id}/status', [AdminRentalController::class, 'updateStatus'])->name('admin.rentals.updateStatus');
+    Route::delete('/admin/rentals/{id}', [AdminRentalController::class, 'destroy'])->name('admin.rentals.destroy');
 });
 
 Route::middleware(['auth', 'role:landlord'])->group(function () {
