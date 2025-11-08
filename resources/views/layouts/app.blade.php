@@ -17,6 +17,6 @@
 <main class="container mx-auto p-6">
     @yield('content')
 </main>
-
+@stack('scripts')
 </body>
 </html>
