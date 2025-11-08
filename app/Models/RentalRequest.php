@@ -22,4 +22,9 @@ class RentalRequest extends Model
     {
         return $this->belongsTo(Rental::class);
     }
+
+    public function landlord()
+    {
+        return $this->belongsTo(User::class, 'landlord_id');
+    }
 }
