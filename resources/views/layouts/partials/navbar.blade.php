@@ -36,6 +36,11 @@
                                 Rentals
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.activities.index') }}" class="nav-link">
+                                Activities
+                            </a>
+                        </li>
 
                     @elseif($role === 'landlord')
                         {{-- Landlord Navigation --}}

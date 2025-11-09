@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Landlord;
 
+use App\Helpers\ActivityLogger;
 use App\Http\Controllers\Controller;
 use App\Models\RentalRequest;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class RentalRequestController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $req = RentalRequest::findOrFail($id);
-
+        $old = $req->status;
         // Ensure the landlord owns this rental
         if ($req->rental->landlord_id !== Auth::id()) {
             return back()->with('error', 'Unauthorized action.');
@@ -39,6 +40,12 @@ class RentalRequestController extends Controller
             $req->update(['status' => 'rejected']);
             return back()->with('success', 'Request rejected successfully!');
         }
+
+        ActivityLogger::log('request.status_updated', [
+            'request_id' => $req->id,
+            'from' => $old,
+            'to' => $req->status,
+        ]);
 
         return back()->with('error', 'Invalid action.');
     }
