@@ -74,7 +74,6 @@
                         </td>
                         <td class="text-muted small">{{ $r->created_at?->format('Y-m-d H:i') }}</td>
                         <td class="text-end">
-                            {{-- Mark reviewed --}}
                             @if($r->status !== 'reviewed')
                                 <form action="{{ route('admin.requests.review',$r->id) }}" method="post" class="d-inline">
                                     @csrf @method('PATCH')
