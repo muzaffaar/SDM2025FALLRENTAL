@@ -28,6 +28,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                {{-- users --}}
                 @forelse($users as $u)
                     <tr>
                         <td>{{ $u->id }}</td>
