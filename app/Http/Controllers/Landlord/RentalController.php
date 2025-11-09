@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Landlord;
 
+use App\Helpers\ActivityLogger;
 use App\Http\Controllers\Controller;
 use App\Models\Rental;
 use App\Models\RentalImage;
@@ -33,6 +34,11 @@ class RentalController extends Controller
             'location' => $validated['location'],
             'landlord_id' => Auth::id(),
             'status' => 'available',
+        ]);
+
+        ActivityLogger::log('rental.created', [
+            'rental_id' => $rental->id,
+            'title' => $rental->title,
         ]);
 
         if ($request->hasFile('images')) {
