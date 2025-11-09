@@ -1,7 +1,18 @@
+@php
+    $is = fn($pattern) => request()->routeIs($pattern) ? 'active fw-semibold text-primary' : '';
+    $brandHref = '/';
+    if(auth()->check()){
+        $r = auth()->user()->role;
+        $brandHref = $r === 'admin' ? route('admin.dashboard')
+                   : ($r === 'landlord' ? route('landlord.dashboard')
+                   : ($r === 'student' ? route('student.dashboard') : '/'));
+    }
+@endphp
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
     <div class="container">
         {{-- Brand --}}
-        <a class="navbar-brand fw-bold text-primary" href="/">
+        <a class="navbar-brand fw-bold text-primary" href="{{ $brandHref }}">
             🏠 Rental Portal
         </a>
 
@@ -18,53 +29,69 @@
                 @auth
                     @php($role = auth()->user()->role)
 
-                    {{-- Role-specific dashboards --}}
+                    {{-- ADMIN --}}
                     @if($role === 'admin')
-                        {{-- Admin Navigation --}}
                         <li class="nav-item">
-                            <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                            <a href="{{ route('admin.dashboard') }}" class="nav-link {{ $is('admin.dashboard') }}">
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.users.index') }}" class="nav-link">
+                            <a href="{{ route('admin.users.index') }}" class="nav-link {{ $is('admin.users.*') }}">
                                 Users
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.rentals.index') }}" class="nav-link">
+                            <a href="{{ route('admin.rentals.index') }}" class="nav-link {{ $is('admin.rentals.*') }}">
                                 Rentals
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.activities.index') }}" class="nav-link">
+                            <a href="{{ route('admin.requests.index') }}" class="nav-link {{ $is('admin.requests.*') }}">
+                                Requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.activities.index') }}" class="nav-link {{ $is('admin.activities.*') }}">
                                 Activities
                             </a>
                         </li>
+                    @endif
 
-                    @elseif($role === 'landlord')
-                        {{-- Landlord Navigation --}}
+                    {{-- LANDLORD --}}
+                    @if($role === 'landlord')
                         <li class="nav-item">
-                            <a href="{{ route('landlord.dashboard') }}" class="nav-link">
+                            <a href="{{ route('landlord.dashboard') }}" class="nav-link {{ $is('landlord.dashboard') }}">
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('landlord.rentals.index') }}" class="nav-link">
+                            <a href="{{ route('landlord.rentals.index') }}" class="nav-link {{ $is('landlord.rentals.*') }}">
                                 My Rentals
                             </a>
                         </li>
-
-                    @elseif($role === 'student')
-                        {{-- Student Navigation --}}
                         <li class="nav-item">
-                            <a href="{{ route('student.dashboard') }}" class="nav-link">
+                            <a href="{{ route('landlord.requests.index') }}" class="nav-link {{ $is('landlord.requests.*') }}">
+                                Requests
+                            </a>
+                        </li>
+                    @endif
+
+                    {{-- STUDENT --}}
+                    @if($role === 'student')
+                        <li class="nav-item">
+                            <a href="{{ route('student.dashboard') }}" class="nav-link {{ $is('student.dashboard') }}">
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('student.rentals.index') }}" class="nav-link">
+                            <a href="{{ route('student.rentals.index') }}" class="nav-link {{ $is('student.rentals.*') }}">
                                 Browse Rentals
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('student.requests.index') }}" class="nav-link {{ $is('student.requests.*') }}">
+                                My Requests
                             </a>
                         </li>
                     @endif
@@ -85,12 +112,12 @@
                 @else
                     {{-- Guest links --}}
                     <li class="nav-item">
-                        <a href="{{ route('login') }}" class="nav-link">
+                        <a href="{{ route('login') }}" class="nav-link {{ $is('login') }}">
                             Login
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('register') }}" class="nav-link">
+                        <a href="{{ route('register') }}" class="nav-link {{ $is('register') }}">
                             Register
                         </a>
                     </li>
