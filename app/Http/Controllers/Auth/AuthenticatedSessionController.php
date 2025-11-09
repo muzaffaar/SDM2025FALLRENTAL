@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\ActivityLogger;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -29,6 +30,11 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = $request->user();
+
+        ActivityLogger::log('login.success', [
+            'ip' => request()->ip(),
+            'agent' => request()->userAgent(),
+        ]);
 
         switch ($user->role) {
             case 'admin':

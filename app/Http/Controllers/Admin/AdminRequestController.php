@@ -10,8 +10,8 @@ class AdminRequestController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->get('status');   // e.g., pending/approved/rejected/reviewed
-        $q      = $request->get('q');        // username/email/title search
+        $status = $request->get('status');
+        $q      = $request->get('q');
 
         $query = RentalRequest::query()
             ->with(['student:id,name,email', 'landlord:id,name,email', 'rental:id,title,location']);
@@ -39,7 +39,6 @@ class AdminRequestController extends Controller
         return view('admin.requests.index', compact('requests', 'status', 'q'));
     }
 
-    // DELETE /admin/requests/{id}
     public function destroy($id)
     {
         $req = RentalRequest::findOrFail($id);
@@ -47,13 +46,10 @@ class AdminRequestController extends Controller
         return back()->with('status', 'Request removed.');
     }
 
-    // PATCH /admin/requests/{id}/review
     public function markReviewed($id)
     {
         $req = RentalRequest::findOrFail($id);
 
-        // If your enum allows 'reviewed', this will work out of the box.
-        // If not, change 'reviewed' to one of your existing statuses.
         $req->update(['status' => 'approved']);
 
         return back()->with('status', 'Request marked as reviewed.');

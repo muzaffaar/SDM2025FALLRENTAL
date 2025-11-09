@@ -46,6 +46,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/requests', [AdminRequestController::class, 'index'])->name('admin.requests.index');
     Route::patch('/requests/{id}/review', [AdminRequestController::class, 'markReviewed'])->name('admin.requests.review');
     Route::delete('/requests/{id}', [AdminRequestController::class, 'destroy'])->name('admin.requests.destroy');
+
+    Route::get('/activities', [AdminDashboard::class, 'activities'])->name('admin.activities.index');
+
 });
 
 Route::middleware(['auth', 'role:landlord'])->group(function () {

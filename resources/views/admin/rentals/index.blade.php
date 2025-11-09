@@ -60,7 +60,6 @@
                                 </form>
                             @endif
 
-                            {{-- Hard delete --}}
                             <form action="{{ route('admin.rentals.destroy',$r->id) }}" method="post" class="d-inline">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this rental permanently?')">Delete</button>
