@@ -29,7 +29,6 @@ class RentalRequestController extends Controller
     {
         $req = RentalRequest::findOrFail($id);
         $old = $req->status;
-        // Ensure the landlord owns this rental
         if ($req->rental->landlord_id !== Auth::id()) {
             return back()->with('error', 'Unauthorized action.');
         }

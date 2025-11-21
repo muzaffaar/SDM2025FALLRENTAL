@@ -27,7 +27,6 @@ class AdminRentalController extends Controller
         return view('admin.rentals.index', compact('rentals'));
     }
 
-    // Toggle full delete for spam/duplicates
     public function destroy($id)
     {
         $rental = Rental::findOrFail($id);
@@ -35,7 +34,6 @@ class AdminRentalController extends Controller
         return back()->with('status', 'Rental deleted.');
     }
 
-    // PATCH /admin/rentals/{id}/status  body: status=active|inactive
     public function updateStatus(Request $request, $id)
     {
         $validated = $request->validate([
