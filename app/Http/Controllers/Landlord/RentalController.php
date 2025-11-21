@@ -112,7 +112,6 @@ class RentalController extends Controller
         $rental = Rental::where('landlord_id', Auth::id())->with('images')->findOrFail($id);
 
         try {
-            // Delete all associated images
             foreach ($rental->images as $img) {
                 if (Storage::disk('public')->exists($img->image_path)) {
                     Storage::disk('public')->delete($img->image_path);
