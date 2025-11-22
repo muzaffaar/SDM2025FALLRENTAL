@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminRentalController;
 use App\Http\Controllers\Admin\AdminRequestController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Landlord\RentalController as LandlordRentalController;
 use App\Http\Controllers\Landlord\RentalRequestController as LandlordRentalRequestController;
 use App\Http\Controllers\ProfileController;
@@ -14,9 +15,7 @@ use App\Http\Controllers\Landlord\DashboardController as LandlordDashboard;
 use App\Http\Controllers\Student\DashboardController as StudentDashboard;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'welcome'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
