@@ -9,26 +9,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧩 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 🧰 Install rsync
+      - name: Install rsync
         run: sudo apt-get update && sudo apt-get install -y rsync
 
-      - name: 🔑 Start SSH agent and add private key
+      - name: Start SSH agent and add private key
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: 🧱 Add server to known_hosts
+      - name: Add server to known_hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.SERVER_PORT }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-      - name: 🚚 Rsync project files to server
+      - name: Rsync project files to server
         run: |
           rsync -avz --delete \
             --exclude='.git' \
@@ -41,7 +41,7 @@ jobs:
             ./ \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH_RENTAL || secrets.SERVER_PATH }}/
 
-      - name: ⚙️ Run deployment commands remotely
+      - name: Run deployment commands remotely
         run: |
           ssh -o StrictHostKeyChecking=yes -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             cd ${{ secrets.SERVER_PATH_RENTAL || secrets.SERVER_PATH }} || exit 1
