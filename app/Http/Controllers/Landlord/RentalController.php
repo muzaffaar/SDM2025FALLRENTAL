@@ -27,9 +27,12 @@ class RentalController extends Controller
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        $title = strip_tags($validated['title']);
+        $description = strip_tags($validated['description']);
+
         $rental = Rental::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
+            'title' => $title,
+            'description' => $description,
             'price' => $validated['price'],
             'location' => $validated['location'],
             'landlord_id' => Auth::id(),
