@@ -3,7 +3,7 @@ name: Deploy Rental Project to VPS (rsync + ssh)
 on:
   push:
     branches: [ "main" ]
-
+### All Done
 jobs:
   deploy:
     runs-on: ubuntu-latest
