@@ -60,11 +60,11 @@ Database (Data Layer)
 
 ## 👥 User Roles and Permissions
 
-| Role | Access | Features |
-|------|---------|-----------|
-| **Student** | Authenticated | Browse rentals, send requests, view request status |
-| **Landlord** | Authenticated | Post rentals, view requests, approve/reject |
-| **Admin** | Authenticated (role=admin) | Manage users, rentals, requests, logs, reports |
+| Role | Access                        | Features |
+|------|-------------------------------|-----------|
+| **Student** | Authenticated (role=student)  | Browse rentals, send requests, view request status |
+| **Landlord** | Authenticated (role=landlord) | Post rentals, view requests, approve/reject |
+| **Admin** | Authenticated (role=admin)    | Manage users, rentals, requests, logs, reports |
 
 ---
 
@@ -102,24 +102,24 @@ Database (Data Layer)
 
 ### 🪜 Step 1: Clone Repository
 ```bash
-git clone https://github.com/imuzaffaar/SDM2025FALLRENTAL.git
+     git clone https://github.com/imuzaffaar/SDM2025FALLRENTAL.git
 cd SDM2025FALLRENTAL
 ``` 
 ### 🪜 Step 2: Install Dependencies
 ```bash
-composer install
+   composer install
 npm install
 npm run dev
 ```
 ### 🪜 Step 3: Environment Configuration
 ```bash
-cp .env.example .env
+   cp .env.example .env
 php artisan key:generate
 ```
 
 ### 🪜 Step 4: Database Migration & Seeding
 ```bash
-php artisan migrate --seed
+   php artisan migrate --seed
 
 This seeds initial users:
 
@@ -132,7 +132,7 @@ Admin → admin@example.com / password
 
 ### 🪜 Step 5: Run the Application
 ```bash
-php artisan serve
+   php artisan serve
 Visit → http://localhost:8000
 ```
 
